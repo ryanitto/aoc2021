@@ -42,7 +42,7 @@ Consider sums of a three-measurement sliding window. How many sums are larger th
 """
 from puzzles import Puzzle
 
-puzzle = Puzzle(r'/Users/ryanitto/aoc2021/puzzles/day1/part1.txt')
+puzzle = Puzzle(__file__)
 
 
 def solve():
@@ -51,17 +51,9 @@ def solve():
     previous_total = 0
 
     for i, value in enumerate(lines):
-        result = 0
-        for t in range(i, i + 3):
-            if len(lines) >= t:
-                try:
-                    result += lines[t]
-                except IndexError:
-                    pass
-
-        if i > 0:
-            increased += 1 if result > previous_total else 0
-
+        window = lines[i:i+3] if len(lines[i:i+3]) > 2 else []
+        result = sum(window)
+        increased += 1 if result > previous_total and i > 0 else 0
         previous_total = result
 
     return increased

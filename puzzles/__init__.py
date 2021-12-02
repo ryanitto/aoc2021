@@ -2,12 +2,13 @@ import os
 
 
 class Puzzle(object):
-    PUZZLE_EXT = 'txt'
+    PUZZLE_FILE = 'puzzle.txt'
 
-    def __init__(self, filepath):
+    def __init__(self, filepath=''):
+        self.lines = None
         if filepath:
-            self._file = os.path.splitext(filepath)[0] + os.path.extsep + self.PUZZLE_EXT
-            self.lines = None
+            self._file = os.path.join(os.path.dirname(filepath), self.PUZZLE_FILE)
+
         with open(self._file) as f:
             self.lines = [f.split()[0] for f in f.readlines()]
 
