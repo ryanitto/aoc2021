@@ -10,7 +10,7 @@ class Puzzle(object):
             self._file = os.path.join(os.path.dirname(filepath), self.PUZZLE_FILE)
 
         with open(self._file) as f:
-            self.lines = [f.replace('\n', '') for f in f.readlines()]
+            self.lines = [''.join(f.splitlines()) for f in f.readlines()]
 
     def __str__(self):
         return self.lines
