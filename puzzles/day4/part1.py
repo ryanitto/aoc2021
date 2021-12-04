@@ -8,7 +8,7 @@ class Spot(int):
     drawn = False
 
 
-class Board:
+class Card:
     def __init__(self, rows_as_str):
         self._rows = [Spot(x) for r in rows_as_str for x in r.split()]
 
@@ -46,14 +46,14 @@ class Board:
 
 def run():
     result = None
-    boards = []
+    cards = []
     num_to_draw = [int(l) for l in lines.pop(0).split(',')]
 
     for i in range(0, len(lines), 6):
-        boards.append(Board(lines[i+1:i+6]))
+        cards.append(Card(lines[i+1:i+6]))
 
     for n in num_to_draw:
-        for i, b in enumerate(boards):
+        for i, b in enumerate(cards):
             b.draw_number(n)
             if b.bingo:
                 return b.score() * n
