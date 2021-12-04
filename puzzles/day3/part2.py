@@ -63,22 +63,54 @@ decimal, not binary.)
 from puzzles import Puzzle
 
 puzzle = Puzzle(__file__)
-lines = puzzle.lines
-
-lines_to_num = [list([k for k in l]) for l in lines]
-num_to_columns = lambda x: list(zip(*x))
 
 
-def compare_for_support(value, *compare):
+def generate_columns(*compare, lines=(), equal_zero=False):
+    lines_to_num = [list([k for k in l]) for l in lines]
+    num_to_columns = lambda x: list(zip(*x))
     columns = num_to_columns(lines_to_num)
-    result = int(''.join(list(filter(lambda x: str(int(x.count(compare[0]) <= x.count(compare[1]))), columns))), 2)
-    return result
+    # filtered_columns = [(compare[1], compare[1]) for i in range(start)] + columns[start:]
+    # print(filtered_columns)
+    if equal_zero:
+        key_value = list(map(lambda x: int(x.count(compare[0]) <= x.count(compare[1])) if x.count(compare[0]) != x.count(compare[1]) else int(compare[1]), columns))
+    else:
+        key_value = list(map(lambda x: int(x.count(compare[0]) <= x.count(compare[1])), columns))
+
+    return key_value, lines_to_num, lines
+
+
+def compare_for_support(*compare, lines=(), equal_zero=False):
+    results = set()
+    len_of_key = len(lines[0])
+
+    for i in range(len_of_key):
+        if i > 0:
+            key_value, lines_to_num, r_lines = generate_columns(*compare, lines=results, equal_zero=equal_zero)
+        else:
+            key_value, lines_to_num, r_lines = generate_columns(*compare, lines=lines, equal_zero=equal_zero)
+
+        r = [''.join(n) for n in list(filter(lambda x: int(x[i]) == key_value[i], lines_to_num))]
+
+        if i > 0:
+            results.intersection_update(set(r))
+        else:
+            results.update(set(r))
+
+        if len(results) == 1:
+            break
+
+    if len(results) > 1:
+        compare_for_support(*compare, lines=results)
+
+    return list(results)
 
 
 def run():
     result = None
 
-    compare_for_support(lines_to_num, '0', '1')
+    oxygen = compare_for_support('0', '1', lines=puzzle.lines)[0]
+    co_two = compare_for_support('1', '0', lines=puzzle.lines, equal_zero=True)[0]
+    result = int(oxygen, 2) * int(co_two, 2)
 
     # gamma = int(''.join(list(filter(lambda x: str(int(x.count('0') <= x.count('1'))), columns))), 2)
     # epsilon = int(''.join(list(filter(lambda x: str(int(x.count('0') >= x.count('1'))), columns))), 2)
