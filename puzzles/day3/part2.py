@@ -69,8 +69,6 @@ def generate_columns(*compare, lines=(), equal_zero=False):
     lines_to_num = [list([k for k in l]) for l in lines]
     num_to_columns = lambda x: list(zip(*x))
     columns = num_to_columns(lines_to_num)
-    # filtered_columns = [(compare[1], compare[1]) for i in range(start)] + columns[start:]
-    # print(filtered_columns)
     if equal_zero:
         key_value = list(map(lambda x: int(x.count(compare[0]) <= x.count(compare[1])) if x.count(compare[0]) != x.count(compare[1]) else int(compare[1]), columns))
     else:
@@ -111,10 +109,6 @@ def run():
     oxygen = compare_for_support('0', '1', lines=puzzle.lines)[0]
     co_two = compare_for_support('1', '0', lines=puzzle.lines, equal_zero=True)[0]
     result = int(oxygen, 2) * int(co_two, 2)
-
-    # gamma = int(''.join(list(filter(lambda x: str(int(x.count('0') <= x.count('1'))), columns))), 2)
-    # epsilon = int(''.join(list(filter(lambda x: str(int(x.count('0') >= x.count('1'))), columns))), 2)
-    # result = gamma * epsilon
 
     return result
 
