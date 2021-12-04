@@ -25,13 +25,13 @@ class Spot(int):
     drawn = False
 
 
-class Board:
+class Card:
     winning_number = None
-    board_num = 0
+    card_num = 0
 
-    def __init__(self, rows_as_str, board_num):
+    def __init__(self, rows_as_str, card_num):
         self._rows = [Spot(x) for r in rows_as_str for x in r.split()]
-        self.board_num = board_num
+        self.card_num = card_num
 
     @property
     def rows(self):
@@ -64,37 +64,37 @@ class Board:
         return unmarked_sum
 
     def __str__(self):
-        return '<Board: {}>'.format(self.board_num)
+        return '<card: {}>'.format(self.card_num)
 
 
 def run():
     result = None
-    boards = []
-    winning_boards = set()
-    last_board = None
+    cards = []
+    winning_cards = set()
+    last_card = None
     num_to_draw = [int(l) for l in lines.pop(0).split(',')]
 
     for i in range(0, len(lines), 6):
-        boards.append(Board(lines[i+1:i+6], len(boards)))
+        cards.append(Card(lines[i + 1:i + 6], len(cards)))
 
-    last_board = find_last_winning_board(boards, num_to_draw, winning_boards)
-    result = last_board.score() * last_board.winning_number
+    last_card = find_last_winning_card(cards, num_to_draw, winning_cards)
+    result = last_card.score() * last_card.winning_number
 
     return result
 
 
-def find_last_winning_board(boards, num_to_draw, winning_boards):
-    last_board = None
+def find_last_winning_card(cards, num_to_draw, winning_cards):
+    last_card = None
     for n in num_to_draw:
-        for i, b in enumerate(boards):
-            if len(winning_boards) == len(boards):
-                return last_board
+        for i, b in enumerate(cards):
+            if len(winning_cards) == len(cards):
+                return last_card
 
             b.draw_number(n)
             if b.bingo:
                 b.winning_number = n
-                winning_boards.add(b)
-                last_board = b
+                winning_cards.add(b)
+                last_card = b
 
 
 if __name__ == '__main__':
