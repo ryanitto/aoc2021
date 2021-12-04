@@ -37,7 +37,7 @@ class Card:
     def rows(self):
         new_rows = []
         for i in range(0, len(self._rows), 5):
-            new_rows.append(self._rows[i:i+5])
+            new_rows.append(self._rows[i:i + 5])
         return new_rows
 
     @property
@@ -64,23 +64,7 @@ class Card:
         return unmarked_sum
 
     def __str__(self):
-        return '<card: {}>'.format(self.card_num)
-
-
-def run():
-    result = None
-    cards = []
-    winning_cards = set()
-    last_card = None
-    num_to_draw = [int(l) for l in lines.pop(0).split(',')]
-
-    for i in range(0, len(lines), 6):
-        cards.append(Card(lines[i + 1:i + 6], len(cards)))
-
-    last_card = find_last_winning_card(cards, num_to_draw, winning_cards)
-    result = last_card.score() * last_card.winning_number
-
-    return result
+        return f'<Card ({self.card_num}) with winning number: {self.winning_number}>'
 
 
 def find_last_winning_card(cards, num_to_draw, winning_cards):
@@ -95,6 +79,20 @@ def find_last_winning_card(cards, num_to_draw, winning_cards):
                 b.winning_number = n
                 winning_cards.add(b)
                 last_card = b
+
+
+def run():
+    cards = []
+    winning_cards = set()
+    num_to_draw = [int(l) for l in lines.pop(0).split(',')]
+
+    for i in range(0, len(lines), 6):
+        cards.append(Card(lines[i + 1:i + 6], len(cards)))
+
+    last_card = find_last_winning_card(cards, num_to_draw, winning_cards)
+    result = last_card.score() * last_card.winning_number
+
+    return result
 
 
 if __name__ == '__main__':
