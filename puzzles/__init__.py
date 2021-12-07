@@ -15,6 +15,9 @@ class Puzzle(object):
     def __str__(self):
         return self.lines
 
+    def comma_line_to_ints(self):
+        return [int(x) for x in self.lines[0].split(',')]
+
     def lines_as_int(self):
         return [int(line) for line in self.lines]
 
