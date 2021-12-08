@@ -7,8 +7,6 @@ from itertools import chain
 
 puzzle = Puzzle(__file__)
 lines = puzzle.lines
-letters = [chr(i) for i in range(97, 104)]  # Because apparently listing out 'a', 'b', 'c' is too difficult
-
 
 class Deduce:
     zero = ''
