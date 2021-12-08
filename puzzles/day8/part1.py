@@ -14,8 +14,6 @@ def extended_parsing(str_list):
 
 
 def run():
-    result = None
-
     puzzle = (extended_parsing(lines))
 
     one = puzzle.count(2)
